@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+<head>Welcome To Ask The Bible</head>
+<body>
+<p>
+This site answer questions based on the data from KJV Bible, Enoch, Naked Bible Podcasts transcripts
+</p>
+<form id="qa">
+  <label for="question">Ask The Bible</label><br>
+  <input type="text" id="question" name="question" value = {{question}}><br>
+  <button type="button" id="submitButton">Submit</button>
+
+</form>
+
+<p>{{answer}}</p>
+
+<script>
+var buttonPX = document.getElementById('submitButton');
+
+function submitForm(event) {
+    event.preventDefault();
+    buttonPX.disabled = true;
+
+    setTimeout(() => {
+        buttonPX.disabled = false;
+    }, 2000); 
+        const formElement = document.getElementById('qa');
+        const formData = new FormData(formElement);
+
+        fetch('/qa', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())  
+    .then(htmlContent => {
+        document.open();
+        document.write(htmlContent);
+        document.close();
+    })
+    .catch(error => console.log(error));
+    }
+    buttonPX.addEventListener('click', submitForm);
+</script>
+
+</body>
+</html>
